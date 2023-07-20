@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SAP Chatbot</title>
+</head>
+<body>
+    <h1>SAP Chatbot</h1>
+    <form action="/chatbot" method="POST">
+        <label for="question">Ask a question:</label><br>
+        <input type="text" id="question" name="question" required><br>
+        <input type="submit" value="Submit">
+    </form>
+    <div id="response"></div>
+    <script>
+        document.querySelector('form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const question = document.getElementById('question').value;
+            const response = await fetch('/chatbot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `question=${encodeURIComponent(question)}`,
+            });
+            const data = await response.text();
+            document.getElementById('response').textContent = data;
+        });
+    </script>
+</body>
+</html>
